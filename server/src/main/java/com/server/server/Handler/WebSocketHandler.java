@@ -19,7 +19,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
-        System.out.println("✅ Client connected to server");
+        System.out.println("Client connected to server");
     }
 
     @Override
@@ -28,17 +28,17 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
         String expectedChecksum = securityService.computeChecksum(msg.getSeq(), msg.getPayload());
         if (!expectedChecksum.equals(msg.getChecksum())) {
-            System.err.println("❌ Tampered message detected!");
+            System.err.println("Tampered message detected!");
             return;
         }
 
         if (msg.getSeq() <= lastSeqReceived) {
-            System.err.println("⚠️ Replay or out-of-order message ignored");
+            System.err.println("Replay or out-of-order message ignored");
             return;
         }
 
         lastSeqReceived = msg.getSeq();
-        System.out.println("📩 Received from client: " + msg.getPayload());
+        System.out.println("Received from client: " + msg.getPayload());
 
         // Send acknowledgment
         String responsePayload = "Ack for message #" + msg.getSeq();
